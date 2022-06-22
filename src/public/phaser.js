@@ -1,45 +1,39 @@
-var config = {
+class Example extends Phaser.Scene {
+  constructor() {
+    super();
+  }
+
+  preload() {
+    this.load.spritesheet("diamonds", "assets/sprites/diamonds32x24x5.png", {
+      frameWidth: 32,
+      frameHeight: 24,
+    });
+  }
+
+  create() {
+    const group = this.add.group({
+      key: "diamonds",
+      frame: [0, 1, 2, 3, 4],
+      frameQuantity: 20,
+    });
+
+    Phaser.Actions.GridAlign(group.getChildren(), {
+      width: 10,
+      height: 10,
+      cellWidth: 32,
+      cellHeight: 32,
+      x: 100,
+      y: 100,
+    });
+  }
+}
+
+const config = {
   type: Phaser.AUTO,
   width: 800,
   height: 600,
-  physics: {
-    default: "arcade",
-    arcade: {
-      gravity: { y: 200 },
-    },
-  },
-  scene: {
-    preload: preload,
-    create: create,
-  },
+  parent: "phaser-example",
+  scene: [Example],
 };
 
-var game = new Phaser.Game(config);
-
-function preload() {
-  this.load.setBaseURL("http://labs.phaser.io");
-
-  this.load.image("sky", "assets/skies/space3.png");
-  this.load.image("logo", "assets/sprites/phaser3-logo.png");
-  this.load.image("red", "assets/particles/red.png");
-}
-
-function create() {
-  this.add.image(400, 300, "sky");
-
-  var particles = this.add.particles("red");
-
-  var emitter = particles.createEmitter({
-    speed: 100,
-    scale: { start: 1, end: 0 },
-    blendMode: "ADD",
-  });
-
-  var logo = this.physics.add.image(400, 100, "logo");
-
-  logo.setVelocity(100, 200);
-  logo.setBounce(1, 1);
-  logo.setCollideWorldBounds(true);
-
-  emitter.startFollow(logo);
-}
+const game = new Phaser.Game(config);
