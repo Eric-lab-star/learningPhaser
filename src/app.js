@@ -3,12 +3,12 @@ import express from "express";
 const app = express();
 const port = 3000;
 app.set("views", __dirname + "/views");
-app.set("view engine", "pug");
+app.set("view engine", "html");
 
-app.use(express.static("src/public"));
+app.use("/assets", express.static("src/assets"));
 
 app.get("/", (req, res) => {
-  res.render("phaser");
+  res.sendFile(__dirname + "/part1.html");
 });
 
 app.listen(port, () => {
